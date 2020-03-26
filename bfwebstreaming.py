@@ -141,22 +141,22 @@ def live_video_feed():
 
 # check to see if this is the main thread of execution.
 if __name__ == '__main__':
-	# construct the argument parser and parse command line arguments
-	PORT = port = int(os.environ.get("PORT", 8000))
-	#IP_ADDRESS = "127.0.0.1"
+    # construct the argument parser and parse command line arguments
+    PORT = port = int(os.environ.get("PORT", 8000))
+    #IP_ADDRESS = "127.0.0.1"
     IP_ADDRESS = "0.0.0.0"
 	FRAME_COUNT = [3] # Need to pass as an arbitrary iterable object for threading.Thread()
 
-	# start a thread for live-streaming.
+    # start a thread for live-streaming.
 	# Recall that Thread() requires 2 arguments:
 	#   1. target = function for thread to start execution.
-	#   2. args = an iterable to pass as arguments for the target function (even if its only 1 arg)
-	liveThread = threading.Thread(target=liveStreamVideo, args=FRAME_COUNT)
+    #   2. args = an iterable to pass as arguments for the target function (even if its only 1 arg)
+    liveThread = threading.Thread(target=liveStreamVideo, args=FRAME_COUNT)
 	liveThread.daemon = True # This thread will never ends (until server is terminated)
-	liveThread.start()
+    liveThread.start()
 
-	# start the flask app
-	app.run(host=IP_ADDRESS, port=PORT, debug=True, threaded=True, use_reloader=False)
+    # start the flask app
+    app.run(host=IP_ADDRESS, port=PORT, debug=True, threaded=True, use_reloader=False)
 
 # release the video stream pointers
 liveVS.stop()
