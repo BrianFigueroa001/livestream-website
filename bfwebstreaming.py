@@ -144,7 +144,7 @@ if __name__ == '__main__':
 	# construct the argument parser and parse command line arguments
 	PORT = port = int(os.environ.get("PORT", 8000))
 	#IP_ADDRESS = "127.0.0.1"
-	IP_ADDRESS = "0.0.0.0"
+    IP_ADDRESS = "0.0.0.0"
 	FRAME_COUNT = [3] # Need to pass as an arbitrary iterable object for threading.Thread()
 
 	# start a thread for live-streaming.
