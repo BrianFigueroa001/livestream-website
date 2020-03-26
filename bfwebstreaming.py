@@ -35,7 +35,7 @@ liveOutputFrame = None
 #used to ensure thread-safe behavior when updating output frame.
 #i.e., ensuring that one thread isn't trying to read the frame as it's being updated.
 liveLock = threading.Lock() 
-			 
+         
 # initialize a flask object
 app = Flask(__name__)
 
@@ -53,23 +53,23 @@ time.sleep(2.0)
 #
 # @Param frameCount = min # of requires frames to build background 'bg' in SingleMotionDetector object.
 def liveStreamVideo(frameCount):
-	# grab global references pertaining to live streaming.
-	global liveVS, liveOutputFrame, liveLock
+    # grab global references pertaining to live streaming.
+    global liveVS, liveOutputFrame, liveLock
 
-	# initialize the motion detector and the total number of frames read thus far
-	#motionDetector = SingleMotionDetector(accumWeight=0.1)
-	#total = 0
+    # initialize the motion detector and the total number of frames read thus far
+    #motionDetector = SingleMotionDetector(accumWeight=0.1)
+    #total = 0
 
     # loop over frames from the video stream
-	while True:
-		# read the next frame from the video stream, resize it,
-		# convert the frame to grayscale, and blur it
-		frame = liveVS.read()
-		frame = imutils.resize(frame, width=400) #resizing frame input smaller = the less data there is to process (faster processing)
+    while True:
+        # read the next frame from the video stream, resize it,
+        # convert the frame to grayscale, and blur it
+        frame = liveVS.read()
+        frame = imutils.resize(frame, width=400) #resizing frame input smaller = the less data there is to process (faster processing)
 
         # Ensures liveOutputFrame is not being read by client while it is being updated here.
-		with liveLock:
-			liveOutputFrame = frame.copy()
+        with liveLock:
+            liveOutputFrame = frame.copy()
 
 # Generator function
 #
@@ -90,28 +90,28 @@ def liveStreamVideo(frameCount):
 #                      We should use yield when we want to iterate over a sequence, but don’t want to store the entire sequence 
 #                      in memory.
 def liveGenerate():
-	# grab global references to the output frame and lock variables
-	global liveOutputFrame, liveLock
-	# loop over frames from the output stream
-	while True:
-		# wait until the liveLock is acquired
-		with liveLock:
-			# check if the output frame is available, otherwise skip
-			# the iteration of the loop
-			if liveOutputFrame is None:
-				continue
+    # grab global references to the output frame and lock variables
+    global liveOutputFrame, liveLock
+    # loop over frames from the output stream
+    while True:
+        # wait until the liveLock is acquired
+        with liveLock:
+            # check if the output frame is available, otherwise skip
+            # the iteration of the loop
+            if liveOutputFrame is None:
+                continue
 
-			# encode the frame in JPEG format
-			(flag, encodedImage) = cv2.imencode(".jpg", liveOutputFrame)
+            # encode the frame in JPEG format
+            (flag, encodedImage) = cv2.imencode(".jpg", liveOutputFrame)
 
-			# ensure the frame was successfully encoded
+            # ensure the frame was successfully encoded
             # aka flag == false -> encoding failed.
-			if not flag:
-				continue
+            if not flag:
+                continue
 
-		# yield the output frame in the byte format
-		yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + 
-			bytearray(encodedImage) + b'\r\n')
+        # yield the output frame in the byte format
+        yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + 
+            bytearray(encodedImage) + b'\r\n')
 
 # The code below Handles parsing command line arguments and launching flask app.
 # There are three command line arguments used.
@@ -123,8 +123,8 @@ def liveGenerate():
 
 @app.route("/")
 def index():
-	# return the rendered template
-	return render_template("index.html")
+    # return the rendered template
+    return render_template("index.html")
 
 #@app.route("/live_video_feed") tells Flask that this function is a URL endpoint.
 #Data is being served from https://your-ip-address/video_feed
@@ -136,8 +136,8 @@ def index():
 # Line 9 in index.html instructs flask to dynamically render the URL of /video_feed route.
 @app.route("/live_video_feed")
 def live_video_feed():
-	# return the response generated along with the specific media type (mime type)
-	return Response(liveGenerate(), mimetype = "multipart/x-mixed-replace; boundary=frame")
+    # return the response generated along with the specific media type (mime type)
+    return Response(liveGenerate(), mimetype = "multipart/x-mixed-replace; boundary=frame")
 
 # check to see if this is the main thread of execution.
 if __name__ == '__main__':
@@ -145,14 +145,14 @@ if __name__ == '__main__':
     PORT = port = int(os.environ.get("PORT", 8000))
     #IP_ADDRESS = "127.0.0.1"
     IP_ADDRESS = "0.0.0.0"
-	FRAME_COUNT = [3] # Need to pass as an arbitrary iterable object for threading.Thread()
+    FRAME_COUNT = [3] # Need to pass as an arbitrary iterable object for threading.Thread()
 
     # start a thread for live-streaming.
-	# Recall that Thread() requires 2 arguments:
-	#   1. target = function for thread to start execution.
+    # Recall that Thread() requires 2 arguments:
+    #   1. target = function for thread to start execution.
     #   2. args = an iterable to pass as arguments for the target function (even if its only 1 arg)
     liveThread = threading.Thread(target=liveStreamVideo, args=FRAME_COUNT)
-	liveThread.daemon = True # This thread will never ends (until server is terminated)
+    liveThread.daemon = True # This thread will never ends (until server is terminated)
     liveThread.start()
 
     # start the flask app
