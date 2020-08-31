@@ -1,4 +1,4 @@
-# Surveillance-Website
+# Livestream Website
 A home surveillance system for a final school project and to find out who is stealing my mail.
 
 Users can log in to view a live stream from my webcam (currently changed to a live-stream of a random place in Alabama so I can show off this project without having
