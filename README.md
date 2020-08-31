@@ -10,6 +10,6 @@ You can login with the following credentials:
 Username: testermcgee@mail.com
 Password: Test123!
 
-#Current Updates
+# Current Updates
 NOTE: due to not wanting random strangers to see my webcam feed, I changed the livestream feed to show a street in Montevallo, Alambama.
 Source of stream: https://www.insecam.org/en/view/870988/
