@@ -6,7 +6,7 @@ random strangers view my webcam feed).
 
 Currently hosted on heroku in a separate repository.
 
-Check out the website here: bflivestream.herokuapp.com
+Check out the website here: https://bflivestream.herokuapp.com
 
 You can login with the following credentials:
 
