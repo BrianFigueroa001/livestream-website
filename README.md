@@ -1,8 +1,9 @@
 # Livestream Website
 A home surveillance system for a school project and to find out who is stealing my mail.
 
-Users can log in to view a live stream from my webcam (currently changed to a live-stream of a random place in Alabama so I can show off this project without having
-random strangers view my webcam feed).
+Users can log in to view a live stream from my webcam originally (currently changed to a live-stream of a random place in Alabama so I can show off this project without havingrandom strangers view my webcam feed).
+
+I used yawcam to make my webcam accessible through a public IP made available on the internet using https://www.noip.com/.
 
 Currently hosted on heroku in a separate repository.
 
